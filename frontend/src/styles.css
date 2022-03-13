@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'bootstrap/dist/css/bootstrap-grid.min.css';
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: 'Gilroy', sans-serif;
+    background: #1a2734 !important;
+    ;
+    /* background: linear-gradient(to right, rgb(0, 176, 155), rgb(150, 201, 61)); 
+    background: linear-gradient(to right, rgb(102, 125, 182), rgb(0, 130, 200), rgb(0, 130, 200), rgb(102, 125, 182));
+    background: linear-gradient(to right, rgb(6, 190, 182), rgb(72, 177, 191));
+    background: linear-gradient(to right, rgb(52, 148, 230), rgb(236, 110, 173));
+    background: linear-gradient(to right, rgb(103, 178, 111), rgb(76, 162, 205));
+    background: #0E0240;
+    */
+}
+
+@font-face {
+    font-family: dosis;
+    src: url(assets/fonts/Dosis/Dosis-VariableFont_wght.ttf) format("truetype");
+}

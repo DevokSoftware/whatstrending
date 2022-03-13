@@ -1,0 +1,371 @@
+<div class="row" style="padding-top: 2vh;">
+    <div class="col-7 offset-4" style="text-align: center;">
+        <div class="row" style="justify-content: center;">
+            <div class="appIcon" [ngClass]="{'appIconActive': selectedApp ===
+                'twitter'}" (click)="selectApp('twitter')">
+                <img class="appIconImg" src="../assets/images/twitterIcon.png">
+            </div>
+            <div class="appIcon" [ngClass]="{'appIconActive': selectedApp ===
+                'news'}" style="margin-left: 30px;" (click)="selectApp('news')">
+                <img class="appIconImg" src="../assets/images/news.png">
+            </div>
+            <!--
+            <div class="appIcon appIconActive" [ngClass]="{'appIconActive':
+                selectedApp === 'reddit'}" style="margin-left: 30px;" (click)="selectApp('reddit')">
+                <img class="appIconImg" src="../assets/images/reddit.png">
+            </div>
+-->
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-left: auto; margin-right:
+    auto;margin-top: 2vh;">
+    <div class="col-sm-3 offset-1">
+        <div class="boxContainer">
+            <div class="trendList">
+                <table class="centerTable" mat-table [dataSource]="dataSource" *ngIf="dataSource.data.length> 0">
+                    <ng-container matColumnDef="position">
+                        <th class="boldText" mat-header-cell *matHeaderCellDef mat-sort-header>#</th>
+                        <td class="boldText" mat-cell *matCellDef="let element; let
+                        i= index">{{i + 1}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                        <th class="boldText" mat-header-cell *matHeaderCellDef>Tópico/Hashtag</th>
+                        <td mat-cell *matCellDef="let element" (click)="getTrendInfo(element.name)" style="cursor:
+                        pointer;">{{element.name}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="tweetVolume">
+                        <th class="centerText boldText" mat-header-cell *matHeaderCellDef>Nº de Tweets</th>
+                        <td class="centerText" mat-cell *matCellDef="let element">
+                            <div class="labelDecoration" *ngIf="element.tweetVolume==-1">
+                                &lt; 10k </div>
+                            <div class="labelDecoration" *ngIf="element.tweetVolume!=-1">{{element.tweetVolume}}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                        [ngClass]="{'selectedTrend' : row.name==selectedTrend}"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-7 ">
+        <div class="boxContainer" style="height:80vh;padding-left: 2rem; padding-right: 2rem;">
+            <ng-template [ngIf]="loading$ | async" [ngIfElse]="notLoading">
+                <img class="loadingGif" src="../assets/images/loading.gif">
+            </ng-template>
+            <ng-template #notLoading>
+                <ng-container *ngIf="selectedApp=='twitter'">
+                    <div *ngIf="tweets != null" class="col-12  content">
+                        <div class="row" style="align-items: center">
+
+                            <div class="col-4" style=" height: 100%;">
+                                <ng-container *ngFor="let tweet of tweets;let i = index">
+                                    <ng-container *ngIf="i%3==1">
+                                        <div class="col-10 offset-1 contentCol">
+                                            <!--<div class="col-10 offset-1 contentCol" (click)="openTweet(tweet)">-->
+                                            <div class="row" style="height: 5rem;">
+                                                <div class="col-12" style="text-align: center;padding-top: 10px;">
+                                                    <img class="profileImg" src="{{tweet.user.biggerProfileImageURL}}">
+                                                </div>
+                                                <div class="col-12" style="text-align: center;">
+                                                    <label style="display:block;"
+                                                        class="tweetLabel">{{tweet.user.name}}</label>
+                                                    <label style="display: block ;color: grey;"
+                                                        class="tweetLabel">@{{tweet.user.screenName}}</label>
+                                                </div>
+
+                                            </div>
+                                            <div class="row" style="padding: 9px;height: 15rem;">
+
+                                                <div style="height: 80%;padding-top: 1rem; text-align: justify;">
+                                                    <ngb-carousel style="height: 100%;">
+                                                        <ng-template ngbSlide>
+                                                            <label class="tweetLabel tweetText"
+                                                                [innerHtml]="tweet.text"></label>
+
+                                                        </ng-template>
+                                                        <ng-template ngbSlide>
+
+                                                            <div *ngIf="tweet.mediaEntities.length> 0"
+                                                                style="margin-top: 2vh;">
+                                                                <div class="alignCenter col-12"
+                                                                    *ngIf="tweet.mediaEntities[0].type =='photo'">
+                                                                    <img class="tweetImage"
+                                                                        src="{{tweet.mediaEntities[0].mediaURLHttps}}">
+                                                                </div>
+                                                                <div class="alignCenter col-12"
+                                                                    *ngIf="tweet.mediaEntities[0].type =='video'">
+                                                                    <video class="tweetVideo" controls>
+                                                                        <source
+                                                                            src="{{tweet.mediaEntities[0].videoVariants[0].url}}"
+                                                                            type="video/mp4">
+                                                                    </video>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-carousel>
+                                                </div>
+                                                <div style="height: 20%;margin-top: 2vh;">
+
+                                                    <div style="float: left;">
+                                                        <i class="fas fa-heart tweetIcon"></i>
+                                                        <label style="margin-left: 3px;" class="tweetStat tweetText">
+                                                            {{tweet.favoriteCount}}</label>
+                                                        <i style="margin-left: 15px" class="fas
+                                                        fa-retweet tweetIcon"></i>
+                                                        <label style="margin-left: 3px;" class="tweetStat tweetText">
+                                                            {{tweet.retweetCount}}</label>
+                                                    </div>
+                                                    <div style="float: right;">
+                                                        <label class="tweetStat tweetText">
+                                                            {{tweet.createdAt | dateFormat}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                            <div class="col-4" style=" height: 100%;padding-top: 10rem;">
+                                <ng-container *ngFor="let tweet of tweets;let i = index">
+                                    <ng-container *ngIf="i%3==2">
+                                        <div class="col-10 offset-1 contentCol">
+                                            <!--<div class="col-10 offset-1 contentCol" (click)="openTweet(tweet)">-->
+                                            <div class="row" style="height: 5rem;">
+                                                <div class="col-12" style="text-align: center;padding-top: 10px;">
+                                                    <img class="profileImg" src="{{tweet.user.biggerProfileImageURL}}">
+                                                </div>
+                                                <div class="col-12" style="text-align: center;">
+                                                    <label style="display:block;"
+                                                        class="tweetLabel">{{tweet.user.name}}</label>
+                                                    <label style="display: block ;color: grey;"
+                                                        class="tweetLabel">@{{tweet.user.screenName}}</label>
+                                                </div>
+
+                                            </div>
+                                            <div class="row" style="padding: 9px;height: 15rem;">
+
+                                                <div style="height: 80%;padding-top: 1rem; text-align: justify;">
+                                                    <ngb-carousel style="height: 100%;">
+                                                        <ng-template ngbSlide>
+                                                            <label class="tweetLabel tweetText"
+                                                                [innerHtml]="tweet.text"></label>
+
+                                                        </ng-template>
+                                                        <ng-template ngbSlide>
+
+                                                            <div *ngIf="tweet.mediaEntities.length> 0"
+                                                                style="margin-top: 2vh;">
+                                                                <div class="alignCenter col-12"
+                                                                    *ngIf="tweet.mediaEntities[0].type =='photo'">
+                                                                    <img class="tweetImage"
+                                                                        src="{{tweet.mediaEntities[0].mediaURLHttps}}">
+                                                                </div>
+                                                                <div class="alignCenter col-12"
+                                                                    *ngIf="tweet.mediaEntities[0].type =='video'">
+                                                                    <video class="tweetVideo" controls>
+                                                                        <source
+                                                                            src="{{tweet.mediaEntities[0].videoVariants[0].url}}"
+                                                                            type="video/mp4">
+                                                                    </video>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-carousel>
+                                                </div>
+                                                <div style="height: 20%;margin-top: 2vh;">
+
+                                                    <div style="float: left;">
+                                                        <i class="fas fa-heart tweetIcon"></i>
+                                                        <label style="margin-left: 3px;" class="tweetStat tweetText">
+                                                            {{tweet.favoriteCount}}</label>
+                                                        <i style="margin-left: 15px" class="fas
+                                                        fa-retweet tweetIcon"></i>
+                                                        <label style="margin-left: 3px;" class="tweetStat tweetText">
+                                                            {{tweet.retweetCount}}</label>
+                                                    </div>
+                                                    <div style="float: right;">
+                                                        <label class="tweetStat tweetText">
+                                                            {{tweet.createdAt | dateFormat}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+                            <div class="col-4" style=" height: 100%;">
+                                <ng-container *ngFor="let tweet of tweets;let i = index">
+                                    <ng-container *ngIf="i%3==0">
+                                        <div class="col-10 offset-1 contentCol">
+                                            <!--<div class="col-10 offset-1 contentCol" (click)="openTweet(tweet)">-->
+                                            <div class="row" style="height: 5rem;">
+                                                <div class="col-12" style="text-align: center;padding-top: 10px;">
+                                                    <img class="profileImg" src="{{tweet.user.biggerProfileImageURL}}">
+                                                </div>
+                                                <div class="col-12" style="text-align: center;">
+                                                    <label style="display:block;"
+                                                        class="tweetLabel">{{tweet.user.name}}</label>
+                                                    <label style="display: block ;color: grey;"
+                                                        class="tweetLabel">@{{tweet.user.screenName}}</label>
+                                                </div>
+
+                                            </div>
+                                            <div class="row" style="padding: 9px;height: 15rem;">
+
+                                                <div style="height: 80%;padding-top: 1rem; text-align: justify;">
+                                                    <ngb-carousel style="height: 100%;">
+                                                        <ng-template ngbSlide>
+                                                            <label class="tweetLabel tweetText"
+                                                                [innerHtml]="tweet.text"></label>
+
+                                                        </ng-template>
+                                                        <ng-template ngbSlide>
+
+                                                            <div *ngIf="tweet.mediaEntities.length> 0"
+                                                                style="margin-top: 2vh;">
+                                                                <div class="alignCenter col-12"
+                                                                    *ngIf="tweet.mediaEntities[0].type =='photo'">
+                                                                    <img class="tweetImage"
+                                                                        src="{{tweet.mediaEntities[0].mediaURLHttps}}">
+                                                                </div>
+                                                                <div class="alignCenter col-12"
+                                                                    *ngIf="tweet.mediaEntities[0].type =='video'">
+                                                                    <video class="tweetVideo" controls>
+                                                                        <source
+                                                                            src="{{tweet.mediaEntities[0].videoVariants[0].url}}"
+                                                                            type="video/mp4">
+                                                                    </video>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ngb-carousel>
+                                                </div>
+                                                <div style="height: 20%;margin-top: 2vh;">
+
+                                                    <div style="float: left;">
+                                                        <i class="fas fa-heart tweetIcon"></i>
+                                                        <label style="margin-left: 3px;" class="tweetStat tweetText">
+                                                            {{tweet.favoriteCount}}</label>
+                                                        <i style="margin-left: 15px" class="fas
+                                                        fa-retweet tweetIcon"></i>
+                                                        <label style="margin-left: 3px;" class="tweetStat tweetText">
+                                                            {{tweet.retweetCount}}</label>
+                                                    </div>
+                                                    <div style="float: right;">
+                                                        <label class="tweetStat tweetText">
+                                                            {{tweet.createdAt | dateFormat}}</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </div>
+
+
+                            <!--
+                            <div class="col-10 contentCol" (click)="openTweet()">
+                                <div class="row" style="padding-top: 10px;">
+                                    <div class="col-2" style="text-align: center;">
+                                        <img class="profileImg" src="{{tweet.user.biggerProfileImageURL}}">
+                                    </div>
+                                    <div class="col-10" style="padding-left: 0;">
+                                        <label style="display:block;" class="tweetLabel">{{tweet.user.name}}</label>
+                                        <label style="display: block ;color: grey;"
+                                            class="tweetLabel">@{{tweet.user.screenName}}</label>
+                                    </div>
+
+                                </div>
+                                <div class="row" style="padding: 9px;">
+                                    <div class="col-12">
+                                        <label class="tweetLabel tweetText" [innerHtml]="tweet.text"></label>
+                                        <div *ngIf="tweet.mediaEntities.length> 0" style="margin-top: 2vh;">
+                                            <div class="alignCenter col-12" *ngIf="tweet.mediaEntities[0].type
+                                            =='photo'">
+                                                <img class="tweetImage" src="{{tweet.mediaEntities[0].mediaURLHttps}}">
+                                            </div>
+                                            <div class="alignCenter col-12" *ngIf="tweet.mediaEntities[0].type
+                                            =='video'">
+                                                <video class="tweetVideo" controls>
+                                                    <source src="{{tweet.mediaEntities[0].videoVariants[0].url}}"
+                                                        type="video/mp4">
+                                                </video>
+                                            </div>
+
+                                        </div>
+                                        <div style="margin-top: 2vh;">
+                                            <div style="float: left;">
+                                                <i class="fas fa-heart tweetIcon"></i>
+                                                <label style="margin-left: 3px;" class="tweetStat tweetText">
+                                                    {{tweet.favoriteCount}}</label>
+                                                <i style="margin-left: 15px" class="fas
+                                            fa-retweet tweetIcon"></i>
+                                                <label style="margin-left: 3px;" class="tweetStat tweetText">
+                                                    {{tweet.retweetCount}}</label>
+                                            </div>
+                                            <div style="float: right;">
+                                                <label class="tweetStat tweetText">
+                                                    {{tweet.createdAt | dateFormat}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        -->
+
+                        </div>
+                    </div>
+                </ng-container>
+
+
+                <ng-container *ngIf="selectedApp=='news'">
+                    <div *ngIf="article != null" class="col-10 offset-1 content">
+                        <div class="row" style="align-items: center; width: 100%;">
+                            <div (click)="previousArticle()" class="col-1
+                            clickIcon"> <i *ngIf="arcticleLeftArrow" class="bi bi-caret-left"></i></div>
+                            <div class="col-10 contentArticle" (click)="openArticle()">
+                                <div class="row" style="padding: 9px;">
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <label class="col-12 tweetLabel
+                                            articleTitle">{{article.title}}</label>
+                                            <label style="margin-bottom: 2vh;"
+                                                class="col-12 tweetLabel tweetText">{{article.content}}</label>
+                                            <div class="col-12" style="padding-left:
+                                            0;margin-bottom: 2vh; text-align:
+                                            right;">
+                                                <label style="display:block;font-size:
+                                                9px;" class="tweetLabel">{{article.source.name}}</label>
+                                                <label style="display: block ;color:
+                                                grey;font-size: 9px" class="tweetLabel">{{article.author}}</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" *ngIf="article.urlToImage !=
+                                        null">
+                                            <div class="alignCenter col-12" *ngIf="article.urlToImage != null">
+                                                <img class="articleImage" src="{{article.urlToImage}}">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div (click)="nextArticle()" class="col-1 clickIcon"> <i *ngIf="arcticleRightArrow"
+                                    class="bi bi-caret-right"></i>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </ng-container>
+            </ng-template>
+        </div>
+    </div>
+</div>

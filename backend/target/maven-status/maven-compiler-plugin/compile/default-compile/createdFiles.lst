@@ -1,0 +1,11 @@
+com\whatstrending\apis\twitter4j\configuration\TwitterProperties.class
+com\whatstrending\ServletInitializer.class
+com\whatstrending\WhatstrendingApplication.class
+com\whatstrending\apis\news\configuration\NewsProperties.class
+com\whatstrending\apis\twitter4j\models\Tweet.class
+com\whatstrending\apis\twitter4j\implementation\MixSearch.class
+com\whatstrending\apis\twitter4j\implementation\SearchMode.class
+com\whatstrending\apis\news\configuration\NewsService.class
+com\whatstrending\apis\twitter4j\resources\TwitterResource.class
+com\whatstrending\apis\news\resources\NewsApiResource.class
+com\whatstrending\apis\twitter4j\configuration\TwitterService.class
