@@ -196,7 +196,6 @@ i {
 }
 
 .content {
-    display: flex;
     height: 100%;
     overflow: overlay;
     -ms-overflow-style: none;  /* IE and Edge */
