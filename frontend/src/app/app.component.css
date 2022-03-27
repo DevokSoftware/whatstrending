@@ -20,8 +20,6 @@
 }
 
 .mat-table {
-    /*font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif */
-    font-family: 'Dosis', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin-top: 10px;
     background: none;
 }
@@ -42,7 +40,6 @@
 h3 {
     text-align: center;
     display: block;
-    font-family: "Dosis", Helvetica, Arial, sans-serif;
     text-transform: uppercase;
     font-weight: 700;
     font-size: 5em;
@@ -148,7 +145,7 @@ h3 {
 
 .tweetImage {
     max-width: 100%;
- /*   max-height: 20vh;*/
+    max-height: 20vh;
 }
 
 .tweetVideo {
@@ -162,11 +159,19 @@ h3 {
 
 .clickIcon {
     cursor: pointer;
+    text-align: center;
 }
+
 
 i {
     font-size: 25px;
     color: grey;
+    ;
+}
+
+i:hover {
+    font-size: 29px;
+    color: white;
     ;
 }
 
@@ -276,9 +281,19 @@ td.mat-cell {
 }
 
 .carousel-indicators{
-bottom: -3vh;
+bottom: -1vh;
 }
 
 .carousel-inner{
     height: 100%;
+}
+
+body{
+    font-family: 'Nunito', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.carousel-inner{
+    height: 100%;
+    margin-top: 2vh;
+    align-items: center;
 }

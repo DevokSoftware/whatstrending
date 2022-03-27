@@ -77,11 +77,11 @@
                                             <div class="col-10 offset-1 contentCol">
                                                 <!--<div class="col-10 offset-1 contentCol" (click)="openTweet(tweet)">-->
                                                 <div class="row" style="height: 5rem;">
-                                                    <div class="col-12" style="text-align: center;padding-top: 10px;">
+                                                    <div style="text-align: center;padding-top: 2vh;">
                                                         <img class="profileImg"
                                                             src="{{tweet.user.biggerProfileImageURL}}">
                                                     </div>
-                                                    <div class="col-12" style="text-align: center;">
+                                                    <div style="text-align: center;margin-top: 1vh;">
                                                         <label style="display:block;"
                                                             class="tweetLabel">{{tweet.user.name}}</label>
                                                         <label style="display: block ;color: grey;"
@@ -147,11 +147,11 @@
                                             <div class="col-10 offset-1 contentCol">
                                                 <!--<div class="col-10 offset-1 contentCol" (click)="openTweet(tweet)">-->
                                                 <div class="row" style="height: 5rem;">
-                                                    <div class="col-12" style="text-align: center;padding-top: 10px;">
+                                                    <div style="text-align: center;padding-top: 2vh;">
                                                         <img class="profileImg"
                                                             src="{{tweet.user.biggerProfileImageURL}}">
                                                     </div>
-                                                    <div class="col-12" style="text-align: center;">
+                                                    <div style="text-align: center;margin-top: 1vh;">
                                                         <label style="display:block;"
                                                             class="tweetLabel">{{tweet.user.name}}</label>
                                                         <label style="display: block ;color: grey;"
@@ -217,11 +217,11 @@
                                             <div class="col-10 offset-1 contentCol">
                                                 <!--<div class="col-10 offset-1 contentCol" (click)="openTweet(tweet)">-->
                                                 <div class="row" style="height: 5rem;">
-                                                    <div class="col-12" style="text-align: center;padding-top: 10px;">
+                                                    <div style="text-align: center;padding-top: 2vh;">
                                                         <img class="profileImg"
                                                             src="{{tweet.user.biggerProfileImageURL}}">
                                                     </div>
-                                                    <div class="col-12" style="text-align: center;">
+                                                    <div style="text-align: center;margin-top: 1vh">
                                                         <label style="display:block;"
                                                             class="tweetLabel">{{tweet.user.name}}</label>
                                                         <label style="display: block ;color: grey;"
@@ -343,7 +343,9 @@
                     <div *ngIf="article != null" class="col-10 offset-1 content" style="display: flex;">
                         <div class="row" style="align-items: center; width: 100%;">
                             <div (click)="previousArticle()" class="col-1
-                            clickIcon"> <i *ngIf="arcticleLeftArrow" class="bi bi-caret-left"></i></div>
+                            clickIcon">
+                                <i *ngIf="arcticleLeftArrow" class="bi bi-caret-left"></i>
+                            </div>
                             <div class="col-10 contentArticle" (click)="openArticle()">
                                 <div class="row" style="padding: 9px;">
                                     <div class="col-12">
@@ -373,8 +375,9 @@
 
 
                             </div>
-                            <div (click)="nextArticle()" class="col-1 clickIcon"> <i *ngIf="arcticleRightArrow"
-                                    class="bi bi-caret-right"></i>
+                            <div (click)="nextArticle()" class="col-1 clickIcon">
+                                <i *ngIf="arcticleRightArrow" class="bi bi-caret-right"></i>
+
                             </div>
 
                         </div>

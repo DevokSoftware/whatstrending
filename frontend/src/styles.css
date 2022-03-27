@@ -26,3 +26,8 @@ body {
     font-family: dosis;
     src: url(assets/fonts/Dosis/Dosis-VariableFont_wght.ttf) format("truetype");
 }
+
+@font-face {
+    font-family: nunito;
+    src: url(assets/fonts/Nunito/Nunito-VariableFont_wght.ttf) format("truetype");
+}
