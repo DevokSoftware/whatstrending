@@ -9,7 +9,7 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "build-dev": "ng build && node server.js",
-        "heroku-postbuild": "cd frontend && npm install && npm build"
+        "heroku-postbuild": "cd frontend && npm install && npm run build"
     },
     "private": true,
     "dependencies": {
